@@ -21,25 +21,26 @@ class Comment(Base):
     __tablename__ = 'comment'
     id = Column(Integer, primary_key=True)
     comment_text = Column(String(1000))
-    author_id = Column (Integer)
-    post_id = Column(Integer)
+    author_id = Column (Integer, ForeignKey('user.id'))
+    post_id = Column(Integer, ForeignKey('post.id'))
 
 class Post(Base):
     __tablename__ = 'post'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer)
+    user_id = Column(Integer, ForeignKey('user.id'))
 
 class Media(Base):
     __tablename__ = 'media'
     id = Column (Integer, primary_key=True)
     url = Column (String(250))
-    post_id = Column (Integer)
+    post_id = Column (Integer, ForeignKey('post.id'))
     type = Column (String(50), nullable=False)
 
-class Follower(Base):
-    __tablename__ = 'follower'
-    ufrom_id = Column (Integer)
 
+class Followers(Base):
+    __tablename__ = 'followers'
+    user_from_id = Column(Integer, ForeignKey('user.id'), primary_key=True)
+    user_to_id = Column(Integer, ForeignKey('user.id'))
 
     def to_dict(self):
         return {}
